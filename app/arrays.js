@@ -1,59 +1,72 @@
-exports = typeof window === 'undefined' ? global : window;
+if (typeof define !== 'function') { var define = require('amdefine')(module); }
 
-exports.arraysAnswers = {
-  indexOf: function(arr, item) {
+define(function() {
+  return {
+    indexOf : function(arr, item) {
+        return arr.indexOf(item);
+    },
 
-  },
+    sum : function(arr) {
+        return arr.reduce(function (a, b) { return a + b; });
+    },
 
-  sum: function(arr) {
+    remove : function(arr, item) {
+        while (arr.indexOf(item) != -1)
+            arr.splice(arr.indexOf(item), 1);
 
-  },
+        return arr;
+    },
 
-  remove: function(arr, item) {
+    // There must be an error here, these two cannot have the same code
+    removeWithoutCopy : function(arr, item) {
+        while (arr.indexOf(item) != -1)
+            arr.splice(arr.indexOf(item), 1);
 
-  },
+        return arr;
+    },
 
-  removeWithoutCopy: function(arr, item) {
+    append : function(arr, item) {
+        arr.push(item);
+        return arr;
+    },
 
-  },
+    truncate : function(arr) {
+        arr.pop();
+        return arr;
+    },
 
-  append: function(arr, item) {
+    concat : function(arr1, arr2) {
+        return arr1.concat(arr2);
+    },
 
-  },
+    insert : function(arr, item, index) {
+        arr.splice(index, 0, item);
+        return arr;
+    },
 
-  truncate: function(arr) {
+    count : function(arr, item) {
+        return arr.filter(function(e){ return e==item; }).length;
+    },
 
-  },
+    duplicates : function(arr) {
+        arr.sort();
+        var dups = [];
+        for (var i = 0; i < arr.length; ++i) {
+            if (arr.indexOf(arr[i], i + 1) != -1 && dups.indexOf(arr[i]) == -1) {
+                dups.push(arr[i]);
+            }
+        }
+        return dups;
+    },
 
-  prepend: function(arr, item) {
+    square : function(arr) {
+        return arr.map(function(e) { return e*e; });
+    },
 
-  },
-
-  curtail: function(arr) {
-
-  },
-
-  concat: function(arr1, arr2) {
-
-  },
-
-  insert: function(arr, item, index) {
-
-  },
-
-  count: function(arr, item) {
-
-  },
-
-  duplicates: function(arr) {
-
-  },
-
-  square: function(arr) {
-
-  },
-
-  findAllOccurrences: function(arr, target) {
-
-  }
-};
+    findAllOccurrences : function(arr, target) {
+        var ocurrences = [];
+        arr.forEach(function(v, i, a) { if (v == target) { ocurrences.push(i); }});
+        return ocurrences;
+    }
+  };
+});
